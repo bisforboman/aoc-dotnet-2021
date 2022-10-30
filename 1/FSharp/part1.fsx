@@ -1,7 +1,7 @@
-let readLines filePath = System.IO.File.ReadAllLines(filePath); 
+open System.IO
 
 let parsedInput = 
-    Seq.ofArray (readLines "../largeinput.txt")
+    Seq.ofArray (File.ReadAllLines("../largeinput.txt"))
     |> Seq.map System.Int32.Parse
     |> Seq.toList
 

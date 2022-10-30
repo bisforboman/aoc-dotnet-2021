@@ -6,17 +6,11 @@ public static class Program
         File.ReadAllLines(filePath)
             .Select(int.Parse);
 
-    public record DataPoint(int Previous, int Current);
-
-    private static IEnumerable<DataPoint> TransformToDataPoints(this IEnumerable<int> tuples) => 
-        tuples.Prepend(int.MaxValue)
+    private static int CountMeasurementIncreases(this IEnumerable<int> tuples) => 
+        tuples.Prepend(0)
               .Zip(tuples)
               .Skip(1)
-              .Select(i => new DataPoint(i.First, i.Second));
-
-    private static int CountMeasurementIncreases(this IEnumerable<int> ints) => 
-        ints.TransformToDataPoints()
-            .Count(d => d.Previous < d.Current);
+              .Count(d => d.First < d.Second);
 
     private static void Part1(string inputPath)
     {
@@ -33,9 +27,9 @@ public static class Program
 
         // first transform data to 'three-measurement sliding window'
         var slidingWindows = input
-            .Prepend(int.MaxValue)
-            .Prepend(int.MaxValue)
-            .Zip(input.Prepend(int.MaxValue), input)
+            .Prepend(0)
+            .Prepend(0)
+            .Zip(input.Prepend(0), input)
             .Skip(2)
             .Select(i => i.First + i.Second + i.Third);
 

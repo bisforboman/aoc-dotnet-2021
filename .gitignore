@@ -1,0 +1,5 @@
+bin
+obj
+
+# Dont commit input-files
+*input.txt
